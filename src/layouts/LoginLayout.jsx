@@ -6,8 +6,9 @@ import Menubar from '../pages/Shared/Menubar/Menubar';
 const LoginLayout = () => {
     return (
         <div>
-            <Menubar></Menubar>
-            <Outlet></Outlet>
+             <Menubar></Menubar> 
+             <Outlet></Outlet>
+        
         </div>
     );
 };
