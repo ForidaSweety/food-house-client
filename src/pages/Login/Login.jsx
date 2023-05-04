@@ -1,18 +1,46 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../provider/AuthProvider";
-import { GoogleAuthProvider, getAuth } from 'firebase/auth';
+import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import app from '../../firebase/firebase.config';
 
 
 // import { useLocation, useHistory, useNavigate } from "react-router";
 
 const Login = () => {
+    const [user,setUser] =useState(null);
     const auth = getAuth(app)
-    const provider = new GoogleAuthProvider()
+    const googleProvider = new GoogleAuthProvider();
+
+    const githubProvider = new GithubAuthProvider();
+
+    const handleGoogleSignIn = () => {
+        signInWithPopup(auth, googleProvider)
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser);
+                setUser()
+            })
+            .catch(error => {
+                console.log('error', error.message)
+            })
+    }
+
+    const handleGithubSignIn = () => {
+        signInWithPopup(auth, githubProvider)
+        .then(result => {
+            const loggedUser = result.user;
+            console.log(loggedUser);
+            setUser(loggedUser);
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
+    }
 
     const { signIn } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -72,7 +100,10 @@ const Login = () => {
                 </Form.Text>
             </Form>
             <div>
-                <button>Google Login</button>
+                <Button onClick={handleGoogleSignIn}>Google Login</Button>
+            </div>
+            <div>
+                <Button onClick={handleGithubSignIn}>Login with Github</Button>
             </div>
         </Container>
     );
