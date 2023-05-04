@@ -29,7 +29,17 @@ const Menubar = () => {
                         <NavLink href="/about "  className={({ isActive }) => (isActive ? '--bs-info' : '')}>Blogs </NavLink>
                         
                     </Nav>
-                  
+                    <Nav>
+                        {
+                            user && <FaUserCircle style={{ fontSize: '1.5rem' }}></FaUserCircle>
+                        }
+
+                        {
+                            user ? <Button onClick={handleLogOut} variant="secondary">LogOut</Button> :
+                                <Link to='/login'><Button variant="secondary">Login</Button> </Link>
+                        }
+
+                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
